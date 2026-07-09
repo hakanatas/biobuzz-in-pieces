@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOBUZZ: In Pieces - FTC 2026-2027 Canopy Sezonu</title>
+    <meta name="description" content="Species in Pieces projesinden esinlenilmiş, FIRST Tech Challenge 2026-2027 BIOBUZZ (Canopy) temalı etkileşimli, düşük poligonlu animasyon ve bilgi sitesi.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="in-intro">
+    <!-- Display exhibit frames & borders -->
+    <div class="app-frame">
+        <div class="frame-border frame-border-top"></div>
+        <div class="frame-border frame-border-bottom"></div>
+        <div class="frame-border frame-border-left"></div>
+        <div class="frame-border frame-border-right"></div>
+        <div class="frame-corners">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+        </div>
+    </div>
+
+    <!-- Background grid & glow effects -->
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+    <div id="particle-container"></div>
+
+    <!-- 1. Intro Sequence Overlay -->
+    <div class="intro-overlay" id="intro-overlay">
+        <!-- Loading State -->
+        <div class="intro-loading" id="intro-loading">
+            <h4>POLİGONLAR ÜRETİLİYOR...</h4>
+            <p>BIOBUZZ: 30 Parça, 8 Benzersiz Şekil.</p>
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Narrative texts (faded in/out step-by-step) -->
+        <div class="intro-narratives hidden" id="intro-narratives">
+            <p class="narrative-phrase">Canopy ekosistemleri hayati bir dengede yaşar...</p>
+            <p class="narrative-phrase">Robotlar ve canlılar bu dengenin birer parçasıdır...</p>
+            <p class="narrative-phrase">30 poligon parçasıyla birleşen doğa ve teknoloji...</p>
+            <p class="narrative-phrase">BIOBUZZ etkileşimli sergisine hoş geldiniz.</p>
+        </div>
+
+        <!-- Main Title Card -->
+        <div class="intro-card hidden" id="intro-card">
+            <h1>BIO<span>BUZZ</span></h1>
+            <p class="intro-subtitle">30 Parça. 8 Şekil. 1 İttifak.</p>
+            <p class="intro-about">CSS ve Web Audio ile canlandırılmış biyoçeşitlilik sergisi.</p>
+            <button class="btn btn-outline start-btn" id="start-btn">
+                <span>KEŞFETMEYE BAŞLA</span>
+                <svg viewBox="0 0 24 24" class="btn-icon-svg"><path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z"/></svg>
+            </button>
+        </div>
+
+        <!-- Skip Control at the bottom -->
+        <div class="skip-intro" id="skip-intro">
+            <div class="timeline-container">
+                <div class="timeline-bar" id="timeline-bar"></div>
+            </div>
+            <button class="skip-btn" id="skip-btn">Girişi Geç</button>
+        </div>
+    </div>
+
+    <!-- 2. Main Site Header (hidden during intro) -->
+    <header class="app-header">
+        <div class="logo-container">
+            <span class="logo-badge">FTC 26-27</span>
+            <h1 class="logo-text">BIO<span>BUZZ</span></h1>
+        </div>
+        <div class="audio-control">
+            <button id="sound-toggle" aria-label="Sesi Aç/Kapat" class="btn-icon">
+                <svg id="sound-icon-on" viewBox="0 0 24 24" class="icon hidden">
+                    <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
+                </svg>
+                <svg id="sound-icon-off" viewBox="0 0 24 24" class="icon">
+                    <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M19,12C19,12.5 18.9,13 18.71,13.5L20.21,15C20.71,14.1 21,13.1 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.44 14,18.71V20.77C15.38,20.44 16.63,19.78 17.7,18.89L20,21.2L21.27,19.93L4.27,3M12,4V8.79L9.12,5.92L12,4M16.5,12C16.5,11.2 16.12,10.5 15.56,10.05L14,8.48V12C14,12.3 13.9,12.6 13.72,12.82L15.35,14.44C16.07,13.82 16.5,12.97 16.5,12Z"/>
+                </svg>
+                <div class="sound-waves">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- 3. Main Viewport -->
+    <main class="app-viewport">
+        <!-- Interactive Canvas Area -->
+        <section class="canvas-section">
+            <div class="morph-wrapper" id="morph-wrapper">
+                <div id="polygon-container">
+                    <!-- 30 pieces will be generated dynamically by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Content Overlay (Glass Panel) -->
+        <section class="info-section">
+            <div class="glass-panel" id="info-panel">
+                <div class="panel-header">
+                    <span class="shape-number" id="info-num">01 / 08</span>
+                    <h2 class="shape-title" id="info-title">Yükleniyor...</h2>
+                </div>
+                <p class="shape-desc" id="info-desc">Uygulama yüklenirken lütfen bekleyin.</p>
+                
+                <div class="game-relation">
+                    <h3>BIOBUZZ SEZONUYLA İLİŞKİSİ</h3>
+                    <p id="info-relation">...</p>
+                </div>
+
+                <div class="panel-footer">
+                    <button class="btn btn-outline" id="about-game-btn">
+                        <span>Sezon Detayları</span>
+                        <svg viewBox="0 0 24 24" class="btn-icon-svg"><path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 4. Navigation Controls -->
+    <nav class="navigation-controls">
+        <button class="nav-arrow" id="prev-btn" aria-label="Önceki Şekil">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg>
+        </button>
+
+        <div class="navigation-dots" id="nav-dots">
+            <!-- Navigation dots will be populated by JS -->
+        </div>
+
+        <button class="nav-arrow" id="next-btn" aria-label="Sonraki Şekil">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+        </button>
+    </nav>
+
+    <!-- 5. Detailed Game Modal -->
+    <dialog class="modal-dialog" id="about-dialog">
+        <div class="modal-content glass-panel">
+            <button class="modal-close" id="modal-close-btn" aria-label="Kapat">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg>
+            </button>
+            
+            <h2>FTC 2026-2027: BIOBUZZ Sezonu</h2>
+            <div class="modal-body">
+                <p class="accent-text">Doğadan İlham Alan Teknoloji, Biyoçeşitliliği Koruma ve Mühendislik Mücadelesi!</p>
+                
+                <section class="modal-section">
+                    <h3>🌱 FIRST CANOPY Nedir?</h3>
+                    <p>FIRST programlarının 2026-2027 sezonu için ortak teması <strong>CANOPY</strong>'dir. Bu tema, ekosistemlerin karmaşıklığını, biyoçeşitliliği ve orman kanopilerindeki yaşamı anlamaya yöneliktir. Mühendislik ve teknolojiyi doğayla uyumlu hale getirmeyi hedefler.</p>
+                </section>
+
+                <section class="modal-section">
+                    <h3>🐝 BIOBUZZ Mücadelesi</h3>
+                    <p>FTC seviyesindeki oyunun adı <strong>BIOBUZZ</strong>'dır. Robotlar, sahada bulunan tozlaşma süreçlerini taklit eden görevleri yerine getirirler:</p>
+                    <ul>
+                        <li><strong>Polen (Pollen) Toplama:</strong> Sahada bulunan 3 inçlik sarı plastik küreler polenleri temsil eder.</li>
+                        <li><strong>Kovan (Hive) Yapılarına Skorlama:</strong> Robotlar polenleri toplayıp ekosistem kovanı yapılarına bırakarak puan kazanırlar.</li>
+                        <li><strong>Otonom Dönem:</strong> Robotlar vizyon sensörlerini kullanarak çiçeklerin yerini saptar ve en verimli polenleri toplar.</li>
+                        <li><strong>Tırmanma (Endgame):</strong> Sezonun sonunda robotlar "Kanopi Ağacı" yapısına tırmanarak kendilerini sabitlerler.</li>
+                    </ul>
+                </section>
+
+                <section class="modal-section">
+                    <h3>🛠️ Teknoloji ve Tasarım</h3>
+                    <p>Bu site, doğadaki bu kritik dengeleri (Arılar, Çiçekler, Kelebekler, Yapraklar, Kovanlar, Su damlaları ve Bukalemunlar) modern mühendislikle (Robotlar) bir araya getirerek Species in Pieces sanat tarzıyla canlandırmaktadır. Her şekil 30 parçadan oluşur ve doğa-makine uyumunu simgeler.</p>
+                </section>
+            </div>
+        </div>
+    </dialog>
+    
+    <!-- Team Credit Badge -->
+    <div class="team-credit">
+        <img src="logo.png" alt="#24230 AG Robotik Logo" class="team-logo">
+        <div class="team-info">
+            <span class="team-name">#24230 AG Robotik</span>
+            <span class="team-desc">FTC 2026-27 Sezonu</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="shapes.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
