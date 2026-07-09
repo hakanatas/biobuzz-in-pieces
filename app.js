@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
         masterGain.gain.value = 0.15;
         masterGain.connect(audioCtx.destination);
         
-        startAmbientDrone();
+        // startAmbientDrone(); // Commented out to eliminate annoying continuous drone tones
         startAmbientArpeggiator();
     }
 
